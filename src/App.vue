@@ -1,6 +1,5 @@
 <template>
   <div id="app">
-    sadas
     <router-view/>
   </div>
 </template>
