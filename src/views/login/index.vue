@@ -1,7 +1,9 @@
 <template>
   <div class="login-container">
     <!-- 导航栏 -->
-    <van-nav-bar title="登录" />
+    <van-nav-bar title="登录" left-arrow>
+      <van-icon name="close"  slot="left" @click="$router.back()"/>
+    </van-nav-bar>
     <!-- 登录表单 -->
     <van-form @submit="onSubmit" ref="loginForm">
       <van-field v-model="user.mobile" name="mobile"  placeholder="请输入手机号" :rules="userFormRules.mobile" type="number" maxlength="11">
