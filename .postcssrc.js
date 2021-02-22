@@ -5,8 +5,7 @@ module.exports = {
     },
     'postcss-pxtorem': {
       //处理rem适配
-      rootValue({ file }) {
-        console.log(file)
+      rootValue({ file }) { 
         return file.indexOf('vant') !== -1 ? 37.5 : 75
       },
       propList: ['*'],

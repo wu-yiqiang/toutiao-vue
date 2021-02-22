@@ -5,7 +5,7 @@
       <van-icon name="close"  slot="left" @click="$router.back()"/>
     </van-nav-bar>
     <!-- 登录表单 -->
-    <van-form @submit="onSubmit" ref="loginForm">
+    <van-form  ref="loginForm" @submit="onSubmit">
       <van-field v-model="user.mobile" name="mobile"  placeholder="请输入手机号" :rules="userFormRules.mobile" type="number" maxlength="11">
           <i slot="left-icon" class="iconfont iconshouji"></i>
       </van-field>
@@ -17,14 +17,14 @@
           </template>
       </van-field>
       <div class="login-btn-wrap">
-        <van-button  block type="info" native-type="submit">登录</van-button>
+        <van-button  block type="info" class="login-btn" native-type="submit">登录</van-button>
       </div>
     </van-form>
   </div>
 </template>
 
 <script>
- import { login,sendSms } from "@/api/user"
+import { login,sendSms } from "@/api/user"
 export default {
   name:"LoginIndex",
   data(){
@@ -46,7 +46,7 @@ export default {
     }
   },
   methods:{
-    async onSubmit(values) {
+    async onSubmit() {
        /* 提交表单 */
       //1.获取表单数据
       const user=this.user
@@ -58,23 +58,27 @@ export default {
       });
 
       //3.提交表单请求
+      const {data} =await login(user)
+      console.log(data)
      try{
         const {data}=await login(user)
         //获取用户token
+        console.log(data)
         this.$store.commit("setUser",data.data)
-       this.$toast.success("登录成功！")
-       
+        this.$toast.success("登录成功！")
+        this.$router.back()
 
      }catch(error){
+       this.$toast.fail("登录出现错误",error.message)
        if(error.response.status === 400){
           this.$toast.fail("手机号或验证码错误！")
        }else{
           this.$toast.fail("登陆出现错误，请稍后重试！")
        }
-      
      }
-
     },
+
+
     async onSendSms(){
       /* 发送验证码 */
       // 1.校验手机号码的有效性
@@ -86,14 +90,11 @@ export default {
      
       //2.验证通过,显示倒计时
       this.isCountDownShow=true 
-
-
-
-      //3.
+      //3.发送验证码
       try {
         const res=await sendSms(this.user.mobile)
-      } catch (error) {
-        if(error.responsee.status===429){
+      } catch (err) {
+        if(err.response.status===429){
           this.$toast("频繁发送验证码，请稍后重试！")
         }else{
           this.$toast("发送失败，请稍后重试！")
@@ -119,6 +120,10 @@ export default {
   }
   .login-btn-wrap{
     padding:53px 33px; 
+    .login-btn{
+      background-color: blue;
+      border:none;
+    }
   }
 }
 </style>

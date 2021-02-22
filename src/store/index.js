@@ -9,7 +9,6 @@ export default new Vuex.Store({
     user: getItem(TOKEN_KEY)
   },
   mutations: {
-    
     setUser(state, data) {
       state.user = data
       setItem(TOKEN_KEY,state.user)
