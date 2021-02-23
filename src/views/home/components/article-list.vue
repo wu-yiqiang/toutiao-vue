@@ -38,7 +38,7 @@ export default {
         })
         const { result } = data.data
         this.list.push(...result)
-        this.loading = false
+        this.loading = falseit 
         if (result.length) {
           this.timestamp = data.data.pre_timestamp
         } else {
