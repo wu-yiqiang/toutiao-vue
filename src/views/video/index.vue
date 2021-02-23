@@ -6,20 +6,20 @@
 
 <script>
 export default {
-  name:"VideoIndex",
-  components:{
+  name: 'VideoIndex',
+  components: {
 
   },
-  props:{},
-  data() {
+  props: {},
+  data () {
     return {}
   },
   computed: {
 
   },
   watch: {},
-  created() {},
-  mounted() {},
+  created () {},
+  mounted () {},
   methods: {}
 }
 </script>

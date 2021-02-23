@@ -24,84 +24,81 @@
 </template>
 
 <script>
-import { login,sendSms } from "@/api/user"
+import { login, sendSms } from '@/api/user'
 export default {
-  name:"LoginIndex",
-  data(){
+  name: 'LoginIndex',
+  data () {
     return {
-      user:{
-        mobile:"13911111112",
-        code:"246810",
+      user: {
+        mobile: '13911111112',
+        code: '246810'
       },
-      userFormRules:{
-        mobile:[{ required: true, message: '请填写手机号码' },{pattern:/^1[3|5|7|8]\d{9}$/,message:"手机号码格式错误"}],
-        code:[{ required: true, message: '请填写验证码'},{pattern:/^\d{6}$/,message:"验证码格式错误"}],
+      userFormRules: {
+        mobile: [{ required: true, message: '请填写手机号码' }, { pattern: /^1[3|5|7|8]\d{9}$/, message: '手机号码格式错误' }],
+        code: [{ required: true, message: '请填写验证码' }, { pattern: /^\d{6}$/, message: '验证码格式错误' }]
       },
-      
-      time:1000*60,   // 倒计时时长
-      
-      isCountDownShow:false,  //显示倒计时的显示与隐藏
 
+      time: 1000 * 60, // 倒计时时长
+
+      isCountDownShow: false // 显示倒计时的显示与隐藏
 
     }
   },
-  methods:{
-    async onSubmit() {
-       /* 提交表单 */
-      //1.获取表单数据
-      const user=this.user
-      //2.表单验证数据
+  methods: {
+    async onSubmit () {
+      /* 提交表单 */
+      // 1.获取表单数据
+      const user = this.user
+      // 2.表单验证数据
       this.$toast.loading({
         message: '登陆中...',
         forbidClick: true,
-        Duration:0,
-      });
+        Duration: 0
+      })
 
-      //3.提交表单请求
-      const {data} =await login(user)
+      // 3.提交表单请求
+      const { data } = await login(user)
       console.log(data)
-     try{
-        const {data}=await login(user)
-        //获取用户token
+      try {
+        const { data } = await login(user)
+        // 获取用户token
         console.log(data)
-        this.$store.commit("setUser",data.data)
-        this.$toast.success("登录成功！")
+        this.$store.commit('setUser', data.data)
+        this.$toast.success('登录成功！')
         this.$router.back()
-
-     }catch(error){
-       this.$toast.fail("登录出现错误",error.message)
-       if(error.response.status === 400){
-          this.$toast.fail("手机号或验证码错误！")
-       }else{
-          this.$toast.fail("登陆出现错误，请稍后重试！")
-       }
-     }
+      } catch (error) {
+        this.$toast.fail('登录出现错误', error.message)
+        if (error.response.status === 400) {
+          this.$toast.fail('手机号或验证码错误！')
+        } else {
+          this.$toast.fail('登陆出现错误，请稍后重试！')
+        }
+      }
     },
 
-
-    async onSendSms(){
+    async onSendSms () {
       /* 发送验证码 */
       // 1.校验手机号码的有效性
-     try {
-       await this.$refs.loginForm.validate("mobile")
-     } catch (error) {
-       return console.log("验证失败",error)
-     }
-     
-      //2.验证通过,显示倒计时
-      this.isCountDownShow=true 
-      //3.发送验证码
       try {
-        const res=await sendSms(this.user.mobile)
+        await this.$refs.loginForm.validate('mobile')
+      } catch (error) {
+        return console.log('验证失败', error)
+      }
+      // 2.验证通过,显示倒计时
+      this.isCountDownShow = true
+      // 3.发送验证码
+      try {
+        const res = await sendSms(this.user.mobile)
+        console.log(res)
       } catch (err) {
-        if(err.response.status===429){
-          this.$toast("频繁发送验证码，请稍后重试！")
-        }else{
-          this.$toast("发送失败，请稍后重试！")
+        if (err.response.status === 429) {
+          this.$toast('频繁发送验证码，请稍后重试！')
+        } else {
+          this.$toast('发送失败，请稍后重试！')
         }
       }
     }
-  },
+  }
 }
 </script>
 
@@ -115,11 +112,11 @@ export default {
     width: 152px;
     height: 46px;
     font-size: 22px;
-    line-height: 46px; 
-    color: #666;
+    line-height: 46px;
+    color: #ededed;
   }
   .login-btn-wrap{
-    padding:53px 33px; 
+    padding:53px 33px;
     .login-btn{
       background-color: blue;
       border:none;

@@ -28,10 +28,10 @@
 
 <script>
 export default {
-  name:"layoutIndex",
-  data() {
+  name: 'layoutIndex',
+  data () {
     return {
-       active:0
+      active: 0
     }
   }
 }

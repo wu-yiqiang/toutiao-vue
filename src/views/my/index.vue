@@ -35,16 +35,13 @@
       </div>
     </div>
 
-
     <!-- 未登录状态 -->
     <div v-else  class="header not-login">
-      <div class="login-btn" @click="$router.push('/login')"> 
+      <div class="login-btn" @click="$router.push('/login')">
         <img src="~@/assets/mobile.png" alt="" class="mobile-img">
         <span class="text">登录 / 注册</span>
       </div>
     </div>
-
-    
 
     <!-- 导航 -->
     <van-grid column-num=2 class="grid-nav mb-9" clickable>
@@ -60,56 +57,56 @@
 
     <!-- 单元格导航 -->
     <van-cell title="通知消息" is-link url="/" />
-    <van-cell title="小智同学" is-link to="/" class="mb-9" />  
+    <van-cell title="小智同学" is-link to="/" class="mb-9" />
 
     <!-- 退出登录 -->
-    <van-cell v-if="user"  title="退出登录" class="logout-cell"  @click="onLogOut" center clickable/>  
+    <van-cell v-if="user"  title="退出登录" class="logout-cell"  @click="onLogOut" center clickable/>
   </div>
 </template>
 
 <script>
-import {mapState} from 'vuex'
+import { mapState } from 'vuex'
 import { getUserInfo } from '@/api/user'
 export default {
-  name:"MyIndex",
-  components:{
+  name: 'MyIndex',
+  components: {
 
   },
-  props:{},
-  data() {
+  props: {},
+  data () {
     return {
-      userInfo:{}  //用户信息
+      userInfo: {} // 用户信息
     }
   },
   computed: {
     ...mapState(['user'])
   },
   watch: {},
-  created() {
-    if(this.user) {
+  created () {
+    if (this.user) {
       this.loadUserInfo()
     }
   },
-  mounted() {
+  mounted () {
 
   },
   methods: {
-    onLogOut() {
-      //退出登录
+    onLogOut () {
+      // 退出登录
       this.$dialog.confirm({
-        title: '确认退出吗？',
+        title: '确认退出吗？'
       }).then(() => {
-          //确认退出登录，清除登录信息
-           this.$store.commit("setUser",null)
-        }).catch(() => {
-          // 取消退出登录什么也不做
-        });
+        // 确认退出登录，清除登录信息
+        this.$store.commit('setUser', null)
+      }).catch(() => {
+        // 取消退出登录什么也不做
+      })
     },
-    async loadUserInfo() {
-      //加载用户信息
+    async loadUserInfo () {
+      // 加载用户信息
       try {
-        const {data} = await getUserInfo()
-        this.userInfo=data.data
+        const { data } = await getUserInfo()
+        this.userInfo = data.data
       } catch (error) {
         this.$toast.fail(error.message)
       }

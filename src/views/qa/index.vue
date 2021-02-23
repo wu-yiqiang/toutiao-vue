@@ -6,20 +6,20 @@
 
 <script>
 export default {
-  name:"QaIndex",
-  components:{
+  name: 'QaIndex',
+  components: {
 
   },
-  props:{},
-  data() {
+  props: {},
+  data () {
     return {}
   },
   computed: {
 
   },
   watch: {},
-  created() {},
-  mounted() {},
+  created () {},
+  mounted () {},
   methods: {}
 }
 </script>
