@@ -6,6 +6,8 @@ import store from './store'
 // 导入less文件
 import './styles/index.less'
 
+//  加载dayjs
+import '@/utils/dayjs'
 // 导入vant所有组件
 import Vant from 'vant'
 import 'vant/lib/index.css'

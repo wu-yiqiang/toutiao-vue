@@ -1,7 +1,7 @@
 <template>
   <div class="home-container">
     <!-- 导航栏 -->
-    <van-nav-bar class="page-nav-bar">
+    <van-nav-bar class="page-nav-bar" fixed>
       <van-button slot="title" type='info' round size="small" icon="search" class="search-btn">
         搜索
       </van-button>
@@ -15,9 +15,14 @@
         </van-tab>
         <div slot="nav-right" class="placeholder"></div>
         <div slot="nav-right" class="humburger-btn">
-          <i class="iconfont icongengduo"></i>
+          <i class="iconfont icongengduo" @click="showPopup"></i>
         </div>
     </van-tabs>
+
+    <!-- 板块弹出层 -->
+    <van-popup v-model="show" position="bottom" :style="{ height: '100%' }"  closeable round  close-icon-position="top-left"  >
+      <ChannelEdit :my-channels="channels" :my-active="btnactive" :active="active"></ChannelEdit>
+    </van-popup>
   </div>
 </template>
 
@@ -25,16 +30,20 @@
 import { getUserChannel } from '@/api/user.js'
 // 文章列表组件
 import ArticleList from './components/article-list.vue'
+// 板块弹出层组件
+import ChannelEdit from './components/channel-edit.vue'
 export default {
   name: 'HomeIndex',
   components: {
-    ArticleList
+    ArticleList,
+    ChannelEdit
   },
   props: {},
   data () {
     return {
       active: 0,
-      channels: []
+      channels: [],
+      show: false // 板块弹出层控制位
     }
   },
   computed: {
@@ -55,6 +64,10 @@ export default {
           this.$toast.fail('数据库错误，获取频道列表失败!')
         }
       }
+    },
+    showPopup () {
+      /* 板块弹出层控制 */
+      this.show = true
     }
   }
 }
@@ -63,6 +76,7 @@ export default {
 <style lang="less">
 .home-container{
   margin-bottom: 100px;
+  padding-top:174px;
   .page-nav-bar{
     background-color: #3296fa;
   }
@@ -84,6 +98,11 @@ export default {
   /deep/ .channel-tab{
     .van-tabs__wrap{
       height: 82px;
+      position: fixed;
+      top:92px;
+      left:0;
+      right:0;
+      z-index: 1;
     }
     .van-tab{
       min-width: 200px;

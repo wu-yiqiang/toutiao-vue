@@ -117,6 +117,7 @@ export default {
 
 <style lang="less">
 .home-container{
+  padding-top:0;
   .header{
     height: 361px;
     background-image:url("~@/assets/banner.png");
