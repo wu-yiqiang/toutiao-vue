@@ -79,11 +79,6 @@ export default {
         this.$toast('获所有频道失败！')
       }
     },
-    onUpdateActive (index, isChannelEditShow = true) {
-      // 更新激活的频道项
-      this.myActive = index
-      // 关闭编辑频道弹层
-    },
     async addChannel (channelName) {
       /* 为添加用户频道 */
       this.myChannels.push(channelName)

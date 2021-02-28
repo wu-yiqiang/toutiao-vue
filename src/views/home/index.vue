@@ -2,7 +2,7 @@
   <div class="home-container">
     <!-- 导航栏 -->
     <van-nav-bar class="page-nav-bar" fixed>
-      <van-button slot="title" type='info' round size="small" icon="search" class="search-btn">
+      <van-button slot="title" type='info' round size="small" icon="search" class="search-btn" router to='/search'>
         搜索
       </van-button>
     </van-nav-bar>
@@ -32,6 +32,8 @@ import { getUserChannel } from '@/api/user.js'
 import ArticleList from './components/article-list.vue'
 // 板块弹出层组件
 import ChannelEdit from './components/channel-edit.vue'
+import { mapState } from 'vuex'
+import { getItem } from '@/utils/storage'
 export default {
   name: 'HomeIndex',
   components: {
@@ -47,7 +49,7 @@ export default {
     }
   },
   computed: {
-
+    ...mapState(['user'])
   },
   watch: {},
   created () {
@@ -57,13 +59,29 @@ export default {
   methods: {
     async getChannel () {
       try {
-        const { data } = await getUserChannel()
-        this.channels = data.data.channels
-      } catch (error) {
-        if (error.response.status === 507) {
-          this.$toast.fail('数据库错误，获取频道列表失败!')
+        let channels = []
+        if (this.user) {
+          const { data } = await getUserChannel()
+          this.channels = data.data.channels
+        } else {
+          // 未登录 判断是否有本地存储
+          const localChannels = getItem('TOUTIAO_CHANNELS')
+          if (localChannels) {
+            channels = localChannels
+          } else {
+            const { data } = await getUserChannel()
+            channels = data.data.channels
+          }
         }
+        this.channels = channels
+      } catch (error) {
+        this.$toast.fail('获取频道列表失败!')
       }
+    },
+    onUpdateActive (index, isChannelEditShow = true) {
+      // 更新激活的频道项
+      this.myActive = index
+      // 关闭编辑频道弹层
     },
     showPopup () {
       /* 板块弹出层控制 */
