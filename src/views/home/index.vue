@@ -21,7 +21,7 @@
 
     <!-- 板块弹出层 -->
     <van-popup v-model="show" position="bottom" :style="{ height: '100%' }"  closeable round  close-icon-position="top-left"  >
-      <ChannelEdit :my-channels="channels" :my-active="btnactive" :active="active"></ChannelEdit>
+      <ChannelEdit :my-channels="channels" :my-active="active" ></ChannelEdit>
     </van-popup>
   </div>
 </template>

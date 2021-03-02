@@ -1,6 +1,6 @@
 <template>
   <van-cell class="article-item" :to="{
-      name: article,
+      name: 'article',
       params: {
         articleId: article.art_id
       }
@@ -18,7 +18,7 @@
         <span>{{article.pubdate | timeFormat}}</span>
       </div>
     </div>
-    <van-image   class="right-cover" slot="default" fit="cover" v-if="article.cover.type === 1" :src="article.cover.images[0]" />
+    <van-image class="right-cover" slot="default" fit="cover" v-if="article.cover.type === 1" :src="article.cover.images[0]" />
   </van-cell>
 </template>
 

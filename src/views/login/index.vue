@@ -39,7 +39,6 @@ export default {
       },
 
       time: 1000 * 60, // 倒计时时长
-
       isCountDownShow: false // 显示倒计时的显示与隐藏
 
     }

@@ -2,7 +2,7 @@
   <div class="search-container">
     <!-- 搜索框 -->
     <form action="/">
-      <van-search v-model="searchText"  placeholder="请输入搜索关键词" show-action  @search="onSearch"  @cancel="onCancel" @focus="isResultShow = false"/>
+      <van-search v-model="searchText"  :placeholder="请输入搜索关键词" show-action  @search="onSearch"  @cancel="onCancel" @focus="isResultShow = false"/>
     </form>
     <!-- /搜索框 -->
 

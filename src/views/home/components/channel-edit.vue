@@ -1,7 +1,7 @@
 <template>
   <div class="channel-edit">
     <!-- 我的频道 -->
-    <van-cell border="false">
+    <van-cell :border="false">
       <div slot="title" class="title-text">我的频道</div>
       <van-button round type="danger" plain size="mini" class="edit-btn" @click="showEdit">{{isedit ?  "完成" : "编辑"}}</van-button>
     </van-cell>
@@ -14,7 +14,7 @@
     </van-grid>
 
     <!-- 频道推荐列表 -->
-    <van-cell border="false">
+    <van-cell :border="false">
       <div slot="title" class="title-text">频道推荐</div>
     </van-cell>
     <!-- 频道推荐宫格板块 -->

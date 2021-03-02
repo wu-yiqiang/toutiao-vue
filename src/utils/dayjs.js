@@ -4,5 +4,5 @@ import 'dayjs/locale/zh-cn'
 dayjs.locale('zh-cn') // 全局使用简体中文
 
 Vue.filter('timeFormat', value => {
-  return dayjs(value).format('YYYY-DD-MM')
+  return dayjs(value).format('YYYY-MM-DD')
 })
