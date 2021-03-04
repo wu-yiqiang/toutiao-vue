@@ -5,7 +5,10 @@
       class="page-nav-bar"
       left-arrow
       title="黑马头条"
-    ></van-nav-bar>
+      @click-left="onClickLeft"
+    >
+      <van-icon name="arrow-left" color="#fff" slot="left" />
+    </van-nav-bar>
     <!-- /导航栏 -->
 
     <div class="main-wrap" >
@@ -26,31 +29,10 @@
 
         <!-- 用户信息 -->
         <van-cell class="user-info" center :border="false">
-          <van-image
-            class="avatar"
-            slot="icon"
-            round
-            fit="cover"
-            :src="article.aut_photo"
-          />
+          <van-image class="avatar" slot="icon" round fit="cover" :src="article.aut_photo"/>
           <div slot="title" class="user-name">{{article.aut_name}}</div>
           <div slot="label" class="publish-date">{{article.pubdate |  timeFormat }}</div>
           <followUser :is-followed="article.is_followed" class="follow-btn" :user-id="article.aut_id" @update-is_followed="article.is_followed = $event"></followUser>
-          <!-- <van-button
-            class="follow-btn"
-            round
-            size="small" v-if="article.is_followed"
-            @click="onFollows"
-            :loading="followLoding"
-          >已关注</van-button>
-          <van-button
-            class="follow-btn"
-            type="info"
-            color="#3296fa"
-            round
-            size="small"
-            icon="plus"
-          v-else @click="onFollows" :loading="followLoding">关注</van-button> -->
         </van-cell>
         <!-- /用户信息 -->
 
@@ -58,29 +40,21 @@
         <div class="article-content markdown-body" v-html="article.content" ref="articleContentRef"></div>
         <van-divider>正文结束</van-divider>
         <!-- 文章的评论列表 -->
-        <comment-list></comment-list>
+        <comment-list  :source="article.art_id" @onload-success="totalComments = $event.total_count" :list="commentList" @replay-click="onReplayClick"></comment-list>
         <!-- 底部区域 -->
         <div class="article-bottom">
-          <van-button
-            class="comment-btn"
-            type="default"
-            round
-            size="small"
-          >写评论</van-button>
-          <van-icon
-            name="comment-o"
-            info="123"
-            color="#777"
-          />
+          <van-button class="comment-btn" type="default" round size="small" @click="isShow = true">写评论</van-button>
+          <van-icon  name="comment-o" :info="totalComments" color="#777"/>
           <CollectArticle v-model="article.is_collected" :article-id="article.art_id"></CollectArticle>
           <LikeArticle v-model="article.attitude" :article-id="article.art_id"></LikeArticle>
-          <!-- <van-icon
-            color="#777"
-            name="good-job-o"
-          /> -->
           <van-icon name="share" color="#777777"></van-icon>
         </div>
        <!-- /底部区域 -->
+       <!-- 回复文章弹出层 -->
+       <van-popup v-model="isShow" position="bottom" close-on-click-overlay>
+          <CommentPost :target="article.art_id" @close-popup="onPostSuccess($event)" ></CommentPost>
+       </van-popup>
+       <!--/回复文章弹出层 -->
       </div>
       <!-- /加载完成-文章详情 -->
 
@@ -98,6 +72,12 @@
         <van-button class="retry-btn" @click="loadArtile">点击重试</van-button>
       </div>
       <!-- /加载失败：其它未知错误（例如网络原因或服务端异常） -->
+
+      <!--回复评论弹出层 -->
+      <van-popup v-model="IsReplayShow" position="bottom" close-on-click-overlay custom-style="height: 80%;">
+        <CommentReplay :current-comment="currentComment" @close="IsReplayShow = false"></CommentReplay>
+      </van-popup>
+      <!--/回复评论弹出层 -->
     </div>
   </div>
 </template>
@@ -110,13 +90,17 @@ import followUser from '@/components/follow-user'
 import CollectArticle from '@/components/collect-article'
 import LikeArticle from '@/components/like-article'
 import CommentList from './components/comment-list.vue'
+import CommentPost from './components/comment-post'
+import CommentReplay from './components/comment-replay'
 export default {
   name: 'ArticleIndex',
   components: {
     followUser,
     CollectArticle,
     LikeArticle,
-    CommentList
+    CommentList,
+    CommentPost,
+    CommentReplay
   },
   // 定义属性
   props: {
@@ -130,7 +114,12 @@ export default {
       article: {}, // 文章的数据
       loading: true, // 加载中的1loading状态
       errStatus: 0, // 失败状态码
-      followLoding: false // 载入控制位
+      followLoding: false, // 载入控制位
+      totalComments: 0,
+      isShow: false, // 弹出层控制位
+      commentList: [], // 评论列表
+      IsReplayShow: false, // 回复评论弹出层控制位
+      currentComment: {} // 当前回复对象信息
     }
   },
   // 计算属性，会监听依赖属性值随之变化
@@ -171,6 +160,21 @@ export default {
           })
         }
       })
+    },
+    onClickLeft (data) {
+      /* 关闭文章详情页 */
+      this.$router.push('/')
+    },
+    onPostSuccess (data) {
+      /* 发布评论后后续处理步骤 */
+      // 关闭弹层
+      this.isShow = false
+      // 刷新视图
+      this.commentList.unshift(data.new_obj)
+    },
+    onReplayClick (comment) {
+      this.currentComment = comment
+      this.IsReplayShow = true
     }
   },
   // 生命周期 - 创建完成（可以访问当前this实例）

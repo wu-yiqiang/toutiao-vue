@@ -1,23 +1,40 @@
 <template>
   <van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
-    <van-cell v-for="item in list" :key="item" :title="item" />
+    <CommentsItem v-for="(item, index) in list" :key="index" :title="item.content" :comment="item" @update-is_liking="item.is_liking = $event" @replay-click="$emit('replay-click', $event)"/>
   </van-list>
 </template>
 
 <script>
 // 这里可以导入其他文件（比如：组件，工具js，第三方插件js，json文件，图片文件等等）
+import { getComments } from '@/api/comment.js'
+import CommentsItem from './comments-item.vue'
 export default {
   name: 'CommentList',
-  components: {},
+  components: {
+    CommentsItem
+  },
   // 定义属性
   model: {},
-  props: {},
+  props: {
+    source: {
+      type: [Number, String],
+      require: true
+    },
+    list: {
+      type: Array,
+      default: function () {
+        return []
+      }
+    }
+  },
   data () {
     return {
-      list: [],
+      // list: [],
       loading: false,
       finished: false,
-      refreshing: false
+      refreshing: false,
+      offset: null, // 获取下一次请求的时间戳
+      limit: 10 // 每次获取的数据
     }
   },
   // 计算属性，会监听依赖属性值随之变化
@@ -26,24 +43,40 @@ export default {
   watch: {},
   // 方法集合
   methods: {
-    onLoad () {
-      setTimeout(() => {
-        if (this.refreshing) {
-          this.list = []
-          this.refreshing = false
-        }
-        for (let i = 0; i < 10; i++) {
-          this.list.push(this.list.length + 1)
-        }
-        this.loading = false
-        if (this.list.length >= 40) {
+    async onLoad () {
+      /*
+       * 1.请求获取数据
+       * 2.将数据添加到列表中
+       * 3.将loading设置为false
+       * 4.判断是否含有数据
+       * 5.如果还有数据，就请求下一页数据
+       * 6.没有数据就将finished设置为true
+      */
+      try {
+        const { data } = await getComments({
+          type: 'a',
+          source: this.source,
+          offset: this.offset,
+          limit: this.limit
+        })
+        const { results } = data.data
+        this.$emit('onload-success', data.data)
+        this.list.push(...results)
+        if (results.length) {
+          this.offset = data.data.last_id
+        } else {
           this.finished = true
         }
-      }, 1000)
+        console.log(this.list)
+      } catch (error) {
+        this.toast({ message: '获取评论列表失败!', duration: 500 })
+      }
     }
   },
   // 生命周期 - 创建完成（可以访问当前this实例）
-  created () {},
+  created () {
+    this.onLoad()
+  },
   // 生命周期 - 挂载完成（可以访问DOM元素）
   mounted () {},
   beforeCreate () {}, // 生命周期 - 创建之前
