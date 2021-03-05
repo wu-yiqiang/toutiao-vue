@@ -73,8 +73,9 @@ export default {
 
 <style lang='less' scoped>
 .search-suggestion{
+  margin-top:104px;
   /deep/ span.active{
-    color: red;
+  color: red;
   }
 }
 </style>

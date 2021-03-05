@@ -74,7 +74,7 @@
       <!-- /加载失败：其它未知错误（例如网络原因或服务端异常） -->
 
       <!--回复评论弹出层 -->
-      <van-popup v-model="IsReplayShow" position="bottom" close-on-click-overlay custom-style="height: 80%;">
+      <van-popup v-model="IsReplayShow" position="bottom" close-on-click-overlay :style="{height: '95%'}">
         <CommentReplay :current-comment="currentComment" @close="IsReplayShow = false"></CommentReplay>
       </van-popup>
       <!--/回复评论弹出层 -->
@@ -163,7 +163,8 @@ export default {
     },
     onClickLeft (data) {
       /* 关闭文章详情页 */
-      this.$router.push('/')
+      history.back()
+      // this.$router.back()
     },
     onPostSuccess (data) {
       /* 发布评论后后续处理步骤 */

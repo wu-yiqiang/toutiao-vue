@@ -109,8 +109,9 @@ export default {
           return
         }
         this.myChannels.splice(index, 1)
+        console.log(index, this.myActive)
         if (index <= this.myActive) {
-          this.$emit('update-active', index - 1, true)
+          this.$emit('update-active', index, true)
         }
         // 数据持久化
         this.deleteChannel(channel)

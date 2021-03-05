@@ -21,7 +21,7 @@
 
     <!-- 板块弹出层 -->
     <van-popup v-model="show" position="bottom" :style="{ height: '100%' }"  closeable round  close-icon-position="top-left"  >
-      <ChannelEdit :my-channels="channels" :my-active="active" ></ChannelEdit>
+      <ChannelEdit :my-channels="channels" :my-active="active" @update-active="active = $event"></ChannelEdit>
     </van-popup>
   </div>
 </template>
@@ -55,7 +55,8 @@ export default {
   created () {
     this.getChannel()
   },
-  mounted () {},
+  mounted () {
+  },
   methods: {
     async getChannel () {
       try {
@@ -63,6 +64,7 @@ export default {
         if (this.user) {
           const { data } = await getUserChannel()
           this.channels = data.data.channels
+          console.log(this.channels)
         } else {
           // 未登录 判断是否有本地存储
           const localChannels = getItem('TOUTIAO_CHANNELS')
@@ -72,8 +74,8 @@ export default {
             const { data } = await getUserChannel()
             channels = data.data.channels
           }
+          this.channels = channels
         }
-        this.channels = channels
       } catch (error) {
         this.$toast.fail('获取频道列表失败!')
       }

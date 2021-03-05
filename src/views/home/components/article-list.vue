@@ -38,6 +38,7 @@ export default {
   methods: {
     async onLoad () {
       /* 获取当前文章列表页面的内容 */
+      // console.log(this.channel)
       try {
         const { data } = await getArticles({
           channel_id: this.channel.id,

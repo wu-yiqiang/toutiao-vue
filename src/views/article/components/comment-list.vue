@@ -1,5 +1,5 @@
 <template>
-  <van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
+  <van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad" :immediate-check="false">
     <CommentsItem v-for="(item, index) in list" :key="index" :title="item.content" :comment="item" @update-is_liking="item.is_liking = $event" @replay-click="$emit('replay-click', $event)"/>
   </van-list>
 </template>
@@ -17,7 +17,7 @@ export default {
   model: {},
   props: {
     source: {
-      type: [Number, String],
+      type: [Number, String, Object],
       require: true
     },
     list: {
@@ -25,6 +25,14 @@ export default {
       default: function () {
         return []
       }
+    },
+    type: {
+      type: String,
+      // 自定义数据验证
+      validator (value) {
+        return ['a', 'c'].includes(value)
+      },
+      default: 'a'
     }
   },
   data () {
@@ -54,8 +62,8 @@ export default {
       */
       try {
         const { data } = await getComments({
-          type: 'a',
-          source: this.source,
+          type: this.type,
+          source: this.source.toString(),
           offset: this.offset,
           limit: this.limit
         })
@@ -75,6 +83,7 @@ export default {
   },
   // 生命周期 - 创建完成（可以访问当前this实例）
   created () {
+    this.loading = true
     this.onLoad()
   },
   // 生命周期 - 挂载完成（可以访问DOM元素）

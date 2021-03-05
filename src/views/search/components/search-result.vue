@@ -38,21 +38,22 @@ export default {
     async onLoad () {
       // 异步更新数据
       // setTimeout 仅做示例，真实场景中一般为 ajax 请求
-      try {
-        const { data } = await getSearchResults({ page: this.page, per_page: this.perpage, q: this.searchText })
-        const { result } = data.data
-        this.list.push(...result)
-        this.loading = false
-        console.log(data)
-        if (result.length) {
-          this.page++
-        } else {
-          this.finished = true
+      if (this.searchText.length > 0) {
+        try {
+          const { data } = await getSearchResults({ page: this.page, per_page: this.perpage, q: this.searchText })
+          const { results } = data.data
+          this.list.push(...results)
+          this.loading = false
+          if (results.length) {
+            this.page++
+          } else {
+            this.finished = true
+          }
+        } catch (error) {
+          this.error = true
+          this.loading = false
+          this.$toast('获取搜索结果失败！')
         }
-      } catch (error) {
-        this.error = true
-        this.loading = false
-        this.$toast('获取搜索结果失败！')
       }
     }
   },
@@ -72,4 +73,7 @@ export default {
 </script>
 
 <style lang='less' scoped>
+.search-result {
+  margin-top:104px;
+}
 </style>

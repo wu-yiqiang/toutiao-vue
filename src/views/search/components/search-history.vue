@@ -62,4 +62,7 @@ export default {
 </script>
 
 <style lang='less' scoped>
+.search-history {
+  margin-top:104px;
+}
 </style>

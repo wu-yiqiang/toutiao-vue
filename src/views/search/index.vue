@@ -2,7 +2,7 @@
   <div class="search-container">
     <!-- 搜索框 -->
     <form action="/">
-      <van-search v-model="searchText"  :placeholder="请输入搜索关键词" show-action  @search="onSearch"  @cancel="onCancel" @focus="isResultShow = false"/>
+      <van-search v-model.trim="searchText"  placeholder="请输入搜索关键词" show-action  @search="onSearch"  @cancel="onCancel" @focus="isResultShow = false" class="search"/>
     </form>
     <!-- /搜索框 -->
 
@@ -11,7 +11,7 @@
     <!--搜索结果 -->
 
     <!-- 联想建议 -->
-    <SearchSuggestion  v-else-if="searchText" :search-text="searchText" @search="onSearch"></SearchSuggestion>
+    <SearchSuggestion  v-else-if="searchText" :search-text="searchText" ></SearchSuggestion>
     <!-- 联想建议 -->
 
     <!-- 搜索历史记录 -->
@@ -38,7 +38,7 @@ export default {
   },
   data () {
     return {
-      searchText: 'microsoft',
+      searchText: '',
       isResultShow: false, // 控制历史记录显示状态位
       searchHistory: getItem('TOUTIAO_SEARCH_HISTORYS') || [] // 搜索的历史记录
     }
@@ -86,7 +86,12 @@ export default {
 <style lang='less' scoped>
 .search-container  {
   .van-search {
+    position: fixed;
+    top: 0;
+    left:0;
+    right: 0;
     background-color:#3296fa;
+    z-index: 999;
     .van-field__control{
       color: #333333;
     }
