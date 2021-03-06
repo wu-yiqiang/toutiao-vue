@@ -16,6 +16,7 @@ export default {
       required: true
     }
   },
+  inject: ['articleId'],
   data () {
     return {
       message: ''
@@ -35,9 +36,9 @@ export default {
       try {
         if (this.message) {
           const { data } = await addComment({
-            target: this.target,
+            target: this.target.toString(),
             content: this.message,
-            art_id: null
+            art_id: this.articleId ? this.articleId.toString() : null
           })
           // 将填写的评论添加到留言中
           this.message = ''

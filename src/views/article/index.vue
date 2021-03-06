@@ -102,6 +102,11 @@ export default {
     CommentPost,
     CommentReplay
   },
+  provide: function () {
+    return {
+      articleId: this.articleId
+    }
+  },
   // 定义属性
   props: {
     articleId: {
@@ -163,8 +168,8 @@ export default {
     },
     onClickLeft (data) {
       /* 关闭文章详情页 */
-      history.back()
-      // this.$router.back()
+      // history.back()
+      this.$router.back()
     },
     onPostSuccess (data) {
       /* 发布评论后后续处理步骤 */

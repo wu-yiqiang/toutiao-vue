@@ -1,6 +1,6 @@
 <template>
   <div class="article-list">
-    <van-pull-refresh v-model="isFreshLoading" @refresh="onRefresh" :success-text="updateDateCount" success-duration="1500">
+    <van-pull-refresh v-model="isFreshLoading" @refresh="onRefresh" :success-text="updateDateCount" success-duration="1500" >
       <van-list  v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad"  :error.sync="error" error-text="请求失败，点击重新加载">
         <ArticleItem v-for="(item,index) in list" :key="index" :article="item" ></ArticleItem>
       </van-list>

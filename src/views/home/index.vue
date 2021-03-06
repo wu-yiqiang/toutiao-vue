@@ -8,10 +8,12 @@
     </van-nav-bar>
 
     <!-- 标签页滚动 -->
-    <van-tabs v-model="active" animated swipeable class="channel-tab">
+    <van-tabs v-model="active" animated swipeable class="channel-tab" >
         <van-tab :title="item.name" v-for="item in channels" :key="item.id">
           <!-- 文章列表组件  -->
-          <ArticleList :channel="item"></ArticleList>
+          <keep-alive>
+            <ArticleList :channel="item"></ArticleList>
+          </keep-alive>
         </van-tab>
         <div slot="nav-right" class="placeholder"></div>
         <div slot="nav-right" class="humburger-btn">
