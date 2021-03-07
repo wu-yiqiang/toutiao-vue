@@ -11,9 +11,7 @@
     <van-tabs v-model="active" animated swipeable class="channel-tab" >
         <van-tab :title="item.name" v-for="item in channels" :key="item.id">
           <!-- 文章列表组件  -->
-          <keep-alive>
             <ArticleList :channel="item"></ArticleList>
-          </keep-alive>
         </van-tab>
         <div slot="nav-right" class="placeholder"></div>
         <div slot="nav-right" class="humburger-btn">
@@ -98,7 +96,6 @@ export default {
 <style lang="less">
 .home-container{
   margin-bottom: 100px;
-  padding-top:174px;
   .page-nav-bar{
     background-color: #3296fa;
   }
@@ -117,6 +114,9 @@ export default {
       color: #fff;
     }
   }
+  .van-tabs {
+    margin-top:100px;
+  }
   /deep/ .channel-tab{
     .van-tabs__wrap{
       height: 82px;
@@ -125,19 +125,43 @@ export default {
       left:0;
       right:0;
       z-index: 1;
+      margin-top:50px !important;
     }
-    .van-tab{
-      min-width: 200px;
-      border-right: 1px solid #edeff3;
-      color: #777777;
-      font-size:28px ;
-    }
+  .van-tab{
+    min-width: 200px;
+    border-right: 1px solid #edeff3;
+    color: #777777;
+    font-size: 28px;
+  }
     .van-tab--active{
       color:#333333;
       font-size: 30px;
     }
+    }
     .van-tabs__nav{
       padding-bottom: 0;
+      .placeholder{
+        width: 66px;
+        height: 82px;
+        flex-shrink: 0;
+      }
+      .humburger-btn {
+       width: 66px ;
+       height: 82px ;
+       position: fixed;
+       right:0 !important;
+       top:0 ;
+       display: flex;
+       font-size: 33px;
+       background-color: #fff;
+       opacity: 0.902;
+       justify-content: center;
+       align-items: center;
+       margin-top:105px;
+       right: 0;
+       i.iconfont{
+         font-size: 33px;
+       }
     }
     .van-tabs__line{
       // 底部任务条
@@ -145,26 +169,6 @@ export default {
       width: 31px;
       height: 6px;
       background-color: #3296fa;
-    }
-    .placeholder{
-      width: 66px;
-      height: 82px;
-      flex-shrink: 0;
-    }
-    .humburger-btn {
-       width: 66px;
-       height: 82px;
-       position: fixed;
-       display: flex;
-       font-size: 33px;
-       background-color: #fff;
-       opacity: 0.902;
-       justify-content: center;
-       align-items: center;
-       right: 0;
-       i.iconfont{
-         font-size: 33px;
-       }
     }
     &:before {
       content: "";

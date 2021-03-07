@@ -52,7 +52,7 @@
        <!-- /底部区域 -->
        <!-- 回复文章弹出层 -->
        <van-popup v-model="isShow" position="bottom" close-on-click-overlay>
-          <CommentPost :target="article.art_id" @close-popup="onPostSuccess($event)" ></CommentPost>
+          <CommentPost :target="article.art_id" @close-popup="onPostSuccess($event)"></CommentPost>
        </van-popup>
        <!--/回复文章弹出层 -->
       </div>
@@ -139,7 +139,9 @@ export default {
         const { data } = await getArticleById(this.articleId)
         this.article = data.data
         // 渲染成功，获取文章中图片的ref
-        setTimeout(this.imagePreview(), 0)
+        setTimeout(() => {
+          this.imagePreview()
+        }, 0)
       } catch (error) {
         if (error.response && error.response.status === 404) {
           this.errStatus = 404

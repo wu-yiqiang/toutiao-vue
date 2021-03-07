@@ -8,7 +8,7 @@ const routes = [
     name: 'layout',
     component: () => import('@/views/layout'),
     children: [
-      { path: '', name: 'home', component: () => import('@/views/home'), meta: { keepAlive: true, scollTopPosition: 0 } },
+      { path: '', name: 'home', component: () => import('@/views/home') },
       { path: '/my', name: 'my', component: () => import('@/views/my') },
       { path: '/qa', name: 'qa', component: () => import('@/views/qa') },
       { path: '/video', name: 'video', component: () => import('@/views/video') }
@@ -21,12 +21,6 @@ const routes = [
 
 const router = new VueRouter({
   routes
-})
-
-/* 路由守卫 */
-router.beforeEach((to, from, next) => {
-  // 设置路由守卫，进行强制跳转
-  next()
 })
 
 export default router

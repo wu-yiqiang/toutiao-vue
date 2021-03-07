@@ -108,9 +108,9 @@ export default {
   }
   .send-sms-btn{
     background-color: gray;
-    width: 152px;
+    width: 180px;
     height: 46px;
-    font-size: 22px;
+    font-size: 20px;
     line-height: 46px;
     color: #ededed;
   }

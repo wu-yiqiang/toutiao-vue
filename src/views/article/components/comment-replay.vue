@@ -7,7 +7,7 @@
       <CommentItem :comment="currentComment"></CommentItem>
       <!-- 当前评论项 -->
       <van-cell title="全部回复" />
-      <CommentList :source="currentComment.com_id"  type="c"></CommentList>
+      <CommentList :source="currentComment.com_id"  type="c" :list="commentList"></CommentList>
     </div>
     <!-- /评论的回复列表 -->
 
@@ -20,7 +20,7 @@
     <!-- /发布评论 -->
     <!-- 写评论弹出层 -->
     <van-popup v-model="isShow" position="bottom"  >
-      <CommentPost :target="currentComment.com_id" @close-popup="onPostSuccess" :list="commentList"></CommentPost>
+      <CommentPost :target="currentComment.com_id" @close-popup="onPostSuccess" ></CommentPost>
     </van-popup>
     <!-- /写评论弹出层 -->
   </div>
@@ -98,6 +98,7 @@ export default {
     right: 0;
     bottom: 88px;
     overflow-y: auto;
+    margin-top: 100px;
   }
   .post-wrap{
     position: fixed;

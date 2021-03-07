@@ -12,7 +12,7 @@
 // 这里可以导入其他文件（比如：组件，工具js，第三方插件js，json文件，图片文件等等）
 import 'cropperjs/dist/cropper.css'
 import Cropper from 'cropperjs'
-import updateUserPhoto from '@/api/user'
+import { updateUserPhoto } from '@/api/user'
 export default {
   name: 'UpdatePhoto',
   components: {},
@@ -55,7 +55,6 @@ export default {
       viewMode: 1,
       dragMode: 'move',
       aspectRatio: 1,
-      autoCropArea: 1,
       cropBoxMovable: false,
       cropBoxResizable: false,
       background: false

@@ -50,6 +50,11 @@ export default {
     searchHistory: {
       handler (value) {
         /* 监视搜索历史记录的变化 */
+        value.forEach((element, index) => {
+          if (element === '' || element === undefined) {
+            value.splice(index, 1)
+          }
+        })
         setItem('TOUTIAO_SEARCH_HISTORYS', value)
       }
     }

@@ -37,10 +37,10 @@ export default {
         await updateUserProfile({ gender: localGender })
         // 更新视图
         this.$emit('input', localGender)
-        // 关闭弹窗
-        this.$emit('close')
         // 提示成功
         this.$toast.success({ message: '更新性别成功！', duration: 500 })
+        // 关闭弹窗
+        this.$emit('close')
       } catch (error) {
         this.$toast({ message: '更新性别失败', duration: 500 })
       }
@@ -51,7 +51,8 @@ export default {
     }
   },
   // 生命周期 - 创建完成（可以访问当前this实例）
-  created () {},
+  created () {
+  },
   // 生命周期 - 挂载完成（可以访问DOM元素）
   mounted () {},
   beforeCreate () {}, // 生命周期 - 创建之前
